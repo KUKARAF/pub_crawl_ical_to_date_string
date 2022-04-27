@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import requests 
+import requests
 from icalendar import Calendar
 import recurring_ical_events
 from itertools import tee, zip_longest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 
 
 
-
-start_date = (2022, 4, 1)
-end_date =   (2022, 5, 5)
-
+#start_date = (2022, 5, 1)
+start_date = date.today()
+#end_date =   (2022, 6, 5)
+end_date =   date.today() + relativedelta(months=1)
+while end_date.day != 5: 
+    end_date = end_date + relativedelta(days=1)
 
 a = requests.get("https://calendar.google.com/calendar/ical/139jndekp3dp397hui1pk9pf7g%40group.calendar.google.com/public/basic.ics")
 data = a.content
@@ -67,4 +70,5 @@ if __name__ == '__main__':
             a.append(date_range)
     #for each in collapse_ranges(sorted(set(numbers)), (1).__add__):
      #   pprint.pprint(each)
+    print(len(events))
     print("; ".join(a))
